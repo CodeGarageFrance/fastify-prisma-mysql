@@ -1,43 +1,52 @@
-const posts = [
-    {
-        id: 1,
-        title: 'Hello World',
-        content: 'This is a post about Hello World',
-    },
-];
-
+import { prisma } from '../services/db.js';
 export const PostRepository = {
     getPosts: async (page, limit) => {
-        return posts.slice((page - 1) * limit, page * limit);
+        const posts = await prisma.posts.findMany({
+            skip: (page - 1) * limit,
+            take: limit
+        });
+        return posts;
     },
     getPost: async (id) => {
-        const post =  posts.find(post => post.id === id);
+        const post = await prisma.posts.findUnique({
+            where: {
+                id: id
+            }
+        });
         if(!post){
             throw new Error('Post not found');
         }
         return post;
     },
     createPost: async (post) => {
-        const id = posts.length + 1;
-        const newPost = { id, ...post };
-        posts.push(newPost);
+        const newPost = await prisma.posts.create({
+            data: post
+        });
         return newPost;
     },
     updatePost: async (id, post) => {
-        const oldpost = posts.find(post => post.id === id);
+        const oldpost = await prisma.posts.findUnique({
+            where: {
+                id: id
+            }
+        });
         if(!oldpost){
             throw new Error('Post not found');
         }
-        const newPost = { id, ...oldpost, ...post };
-        posts[index] = newPost;
+        const newPost = await prisma.posts.update({
+            where: {
+                id: id
+            },
+            data: post
+        });
         return newPost;
     },
     deletePost: async (id) => {
-        const index = posts.findIndex(post => post.id === id);
-        if(index === -1){
-            throw new Error('Post not found');
-        }
-        const deleted = posts.splice(index, 1);
-        return deleted;
+        const post = await prisma.posts.delete({
+            where: {
+                id: id
+            }
+        });
+        return post;
     }
 }
