@@ -1,7 +1,8 @@
+import { CreatePostDto, GetPostsDto } from "../dtos/PostDtos.js";
 import { PostRepository } from "../repositories/post.js";
 
 export function registerPostRoutes(fastify){
-    fastify.get('/posts', async function getPosts (request, reply) {
+    fastify.get('/posts', { schema: GetPostsDto }, async function getPosts (request, reply) {
         const page = parseInt(request.query.page) || 1;
         const limit = parseInt(request.query.limit) || 10;
         return await PostRepository.getPosts(page, limit);
@@ -13,7 +14,10 @@ export function registerPostRoutes(fastify){
         return await PostRepository.getPost(id);
     })
     
-    fastify.post('/posts', async function createPost (request, reply) {
+    fastify.post('/posts', {
+        preHandler: fastify.auth([fastify.authUser]),
+        schema: CreatePostDto
+    }, async function createPost (request, reply) {
         const body = request.body;
         return await PostRepository.createPost(body);
     })

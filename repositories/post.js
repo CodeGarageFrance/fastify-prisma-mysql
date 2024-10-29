@@ -19,9 +19,12 @@ export const PostRepository = {
         return post;
     },
     createPost: async (post) => {
+        console.log("[DEBUG] before",post);
         const newPost = await prisma.posts.create({
             data: post
         });
+
+        console.log("[DEBUG] after",newPost);
         return newPost;
     },
     updatePost: async (id, post) => {
