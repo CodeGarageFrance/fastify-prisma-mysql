@@ -18,4 +18,10 @@ export const UserRepository = {
         });
         return user;
     },
+    createUser: async (user) => {
+        const newUser = await prisma.users.create({
+            data: user
+        });
+        return newUser;
+    },
 }
