@@ -14,7 +14,7 @@ export function registerAuthMiddlewares(fastify){
         const token = authHeader.replace('Bearer ', '');
         
         try {
-            const payload = JWT.verify(token, 'secret');
+            const payload = JWT.verify(token, process.env.JWT_SECRET);
             const user = await UserRepository.getUserById(payload.id);
             
             if (!user) {

@@ -6,6 +6,16 @@ export const CreatePostDto = {
             title: { type: 'string' },
         },
         required: ['title'],
+    },
+    response: {
+        200: {
+            type: 'object',
+            properties: {
+                id: { type: 'number' },
+                title: { type: 'string' },
+            },
+            required: ['id', 'title']
+        }
     }
 };
 
@@ -15,6 +25,19 @@ export const GetPostsDto = {
         properties: {
             page: { type: 'number' },
             limit: { type: 'number' }
+        }
+    },
+    response: {
+        200: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    id: { type: 'number' },
+                    title: { type: 'string' },
+                },
+                required: ['id', 'title']
+            }
         }
     }
 };

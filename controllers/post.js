@@ -10,7 +10,6 @@ export function registerPostRoutes(fastify){
     
     fastify.get('/posts/:id', async function getPost (request, reply) {
         const id = parseInt(request.params.id);
-        console.log("[DEBUG]", id);
         return await PostRepository.getPost(id);
     })
     

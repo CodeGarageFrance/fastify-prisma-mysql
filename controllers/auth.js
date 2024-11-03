@@ -11,7 +11,7 @@ export function registerAuthRoutes(fastify){
         if(!user){
             throw new Error('Invalid credentials');
         }
-        user.token = JWT.sign({ id: user.id }, 'secret');
+        user.token = JWT.sign({ id: user.id }, process.env.JWT_SECRET);
         return user;
     });
 
