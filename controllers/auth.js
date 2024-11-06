@@ -7,7 +7,7 @@ export function registerAuthRoutes(fastify){
     fastify.post('/login', { schema: LoginDto }, async function login (request, reply) {
         const body = request.body;
         body.password = createHash('sha1').update(body.password+process.env.PASSWORD_SALT).digest('hex');
-        const user = await UserRepository.getUserByCredentials(body.username, body.password);
+        const user = await UserRepository.getUserByCredentials(body.email, body.password);
         if(!user){
             throw new Error('Invalid credentials');
         }
@@ -19,5 +19,6 @@ export function registerAuthRoutes(fastify){
         const body = request.body;
         body.password = createHash('sha1').update(body.password+process.env.PASSWORD_SALT).digest('hex');
         const user = await UserRepository.createUser(body);
+        return user;
     });
 }

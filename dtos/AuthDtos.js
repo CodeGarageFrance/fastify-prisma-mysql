@@ -2,17 +2,17 @@ export const LoginDto = {
     body: {
         type: 'object',
         properties: {
-            username: { type: 'string' },
+            email: { type: 'string' },
             password: { type: 'string' }
         },
-        required: ['username','password'],
+        required: ['email','password'],
     },
     response: {
         200: {
             type: 'object',
             properties: {
                 id: { type: 'number' },
-                username: { type: 'string' },
+                email: { type: 'string' },
                 token: { type: 'string' }
             }
         }
@@ -23,9 +23,9 @@ export const SignupDto = {
     body: {
         type: 'object',
         properties: {
-            username: { type: 'string' },
+            email: { type: 'string' },
             password: { type: 'string' }
         },
-        required: ['username','password'],
+        required: ['email','password'],
     }
 };

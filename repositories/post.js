@@ -1,4 +1,5 @@
 import { prisma } from '../services/db.js';
+
 export const PostRepository = {
     getPosts: async (page, limit) => {
         const posts = await prisma.posts.findMany({

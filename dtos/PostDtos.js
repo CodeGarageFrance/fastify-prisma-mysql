@@ -1,21 +1,25 @@
+const ExistingPostDto = {
+    type: 'object',
+    properties: {
+        id: { type: 'number' },
+        title: { type: 'string' },
+        content: { type: 'string' },
+    },
+    required: ['id', 'title', 'content']
+};
+
 export const CreatePostDto = {
     security: [{ token: [] }],
     body: {
         type: 'object',
         properties: {
             title: { type: 'string' },
+            content: { type: 'string' },
         },
-        required: ['title'],
+        required: ['title', 'content'],
     },
     response: {
-        200: {
-            type: 'object',
-            properties: {
-                id: { type: 'number' },
-                title: { type: 'string' },
-            },
-            required: ['id', 'title']
-        }
+        200: ExistingPostDto
     }
 };
 
@@ -30,14 +34,27 @@ export const GetPostsDto = {
     response: {
         200: {
             type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'number' },
-                    title: { type: 'string' },
-                },
-                required: ['id', 'title']
-            }
+            items: ExistingPostDto
         }
+    }
+};
+
+export const UpdatePostDto = {
+    
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'number'}
+        }   
+    },
+    body: {
+        type: 'object',
+        properties: {
+            title: { type: 'string' },
+            content: { type: 'string' },
+        },
+    },
+    response: {
+        200: ExistingPostDto
     }
 };

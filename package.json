@@ -5,7 +5,10 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx prisma db push && npx prisma generate",
+    "start": "node app.js",
+    "dev": "node app.js",
+    "test": "vitest",
     "sdk": "npx nswag openapi2tsclient /input:http://localhost:3000/documentation/json /output:./src/api.ts"
   },
   "author": "",
@@ -19,7 +22,9 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "got": "^14.4.4",
     "nswag": "^14.1.0",
-    "prisma": "^5.21.1"
+    "prisma": "^5.21.1",
+    "vitest": "^2.1.4"
   }
 }

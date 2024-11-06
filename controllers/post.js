@@ -17,6 +17,7 @@ export function registerPostRoutes(fastify){
         preHandler: fastify.auth([fastify.authUser]),
         schema: CreatePostDto
     }, async function createPost (request, reply) {
+        const email = request.user.email;
         const body = request.body;
         return await PostRepository.createPost(body);
     })

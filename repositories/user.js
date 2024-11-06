@@ -1,10 +1,10 @@
 import { prisma } from '../services/db.js';
 
 export const UserRepository = {
-    getUserByCredentials: async (username, password) => {
+    getUserByCredentials: async (email, password) => {
         const user = await prisma.users.findFirst({
             where: {
-                username: username,
+                email: email,
                 password: password
             }
         });

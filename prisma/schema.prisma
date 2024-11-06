@@ -9,11 +9,12 @@ datasource db {
 
 model posts {
   id    Int    @id @default(autoincrement())
-  title String @db.VarChar(255)
+  title String @db.VarChar(2000)
+  content String @db.VarChar(2000)
 }
 
 model users {
   id    Int    @id @default(autoincrement())
-  username String @db.VarChar(255)
+  email String @db.VarChar(255)
   password String @db.VarChar(255)
 }
