@@ -3,9 +3,12 @@ import Fastify from 'fastify';
 import FastifySwagger from '@fastify/swagger';
 import FastifySwaggerUI from '@fastify/swagger-ui';
 import FastifyAuth from '@fastify/auth';
+
 import { registerPostRoutes } from './controllers/post.js';
 import { registerAuthRoutes } from './controllers/auth.js';
+import { registerCategoryRoutes } from './controllers/category.js';
 import { registerAuthMiddlewares } from './middlewares/auth.js';
+import { registerErrorMiddleware } from './middlewares/error.js';
 
 const fastify = Fastify({
   logger: true,
@@ -33,23 +36,17 @@ await fastify.register(FastifySwaggerUI, {
     uiConfig: {
       docExpansion: 'list'
     },
-    /*uiHooks: {
-      onRequest: function (request, reply, next) { next() },
-      preHandler: function (request, reply, next) { next() }
-    },
-    staticCSP: true,
-    transformStaticCSP: (header) => header,
-    transformSpecification: (swaggerObject, request, reply) => { return swaggerObject },
-    transformSpecificationClone: true*/
 });
 
+registerErrorMiddleware(fastify);
 registerAuthMiddlewares(fastify);
 registerAuthRoutes(fastify);
 registerPostRoutes(fastify);
+registerCategoryRoutes(fastify);
 
 // Run the server!
 try {
-  await fastify.listen({ port: process.env.PORT ||3000, host: process.env.HOST || 'localhost' });
+  await fastify.listen({ port: process.env.PORT || 3000, host: process.env.HOST || 'localhost' });
   await fastify.ready();
 } catch (err) {
   fastify.log.error(err)

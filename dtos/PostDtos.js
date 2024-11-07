@@ -1,11 +1,26 @@
+import { ExistingCategoryDto } from './CategoryDtos.js';
+import { PublicUserDto } from './UserDtos.js';
+
+const PostCategoryDto = {
+    type: 'object',
+    properties: {
+        category: ExistingCategoryDto,
+    },
+};
+
 const ExistingPostDto = {
     type: 'object',
     properties: {
         id: { type: 'number' },
         title: { type: 'string' },
         content: { type: 'string' },
+        author: PublicUserDto,
+        categories: {
+            type: 'array',
+            items: PostCategoryDto
+        }
     },
-    required: ['id', 'title', 'content']
+    required: ['id', 'title', 'content', 'author']
 };
 
 export const CreatePostDto = {
@@ -40,7 +55,7 @@ export const GetPostsDto = {
 };
 
 export const UpdatePostDto = {
-    
+    security: [{ token: [] }],
     params: {
         type: 'object',
         properties: {
@@ -57,4 +72,28 @@ export const UpdatePostDto = {
     response: {
         200: ExistingPostDto
     }
+};
+
+export const DeletePostDto = {
+    security: [{ token: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'number'}
+        }   
+    },
+    response: {
+        200: ExistingPostDto
+    }
+};
+
+export const CreatePostCategoryDto = {
+    security: [{ token: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'number'},
+            categoryId: { type: 'number'}
+        }   
+    },
 };

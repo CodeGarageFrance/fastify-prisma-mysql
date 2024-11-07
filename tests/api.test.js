@@ -7,10 +7,15 @@ const client = got.extend({
     throwHttpErrors: false,
 });
 
-test('POST /signup', async ()=> {
+const d = new Date().getTime();
+const email = `johndoe${d}@gmail.com`;
+
+test('[VALID] POST /signup', async ()=> {
+    
     const res = await client.post('signup', {
         json: {
-            email: 'johndoe@gmail.com',
+            email,
+            username: 'test',
             password: 'password'
         },
         responseType: 'json'
@@ -18,6 +23,34 @@ test('POST /signup', async ()=> {
     const data = res.body;
     expect(res.statusCode).toBe(200);
     expect(data).toHaveProperty('id');
-    expect(data.email).toBe('johndoe@gmail.com');
+    expect(data.email).toBe(email);
     expect(data).to.not.have.property('password');
+});
+
+test('[VALID] POST /login', async ()=> {
+    
+    const res = await client.post('login', {
+        json: {
+            email,
+            password: 'password'
+        },
+        responseType: 'json'
+    });
+    const data = res.body;
+    expect(res.statusCode).toBe(200);
+    expect(data).toHaveProperty('token');
+});
+
+test('[INVALID] POST /login (wrong password)', async ()=> {
+    
+    const res = await client.post('login', {
+        json: {
+            email,
+            password: 'passwordsqdfkljhqsdf'
+        },
+        responseType: 'json'
+    });
+    const data = res.body;
+    expect(res.statusCode).toBe(500);
+    expect(data).to.not.have.property('token');
 });

@@ -7,14 +7,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model posts {
+model Post {
   id    Int    @id @default(autoincrement())
   title String @db.VarChar(2000)
   content String @db.VarChar(2000)
+  authorId Int
+  author User @relation(fields: [authorId], references: [id])
+  categories PostCategory[]
 }
 
-model users {
+model User {
   id    Int    @id @default(autoincrement())
   email String @db.VarChar(255)
+  username String @db.VarChar(255)
   password String @db.VarChar(255)
+  posts Post[]
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+  posts PostCategory[]
+}
+
+model PostCategory {
+  id    Int    @id @default(autoincrement())
+  postId Int
+  categoryId Int
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }

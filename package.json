@@ -7,8 +7,10 @@
   "scripts": {
     "postinstall": "npx prisma db push && npx prisma generate",
     "start": "node app.js",
-    "dev": "node app.js",
+    "dev": "dotenv -e .env.development node app.js",
     "test": "vitest",
+    "db:dev:push": "dotenv -e .env.development -- npx prisma db push",
+    "db:dev:generate": "dotenv -e .env.development -- npx prisma generate",
     "sdk": "npx nswag openapi2tsclient /input:http://localhost:3000/documentation/json /output:./src/api.ts"
   },
   "author": "",
@@ -18,10 +20,12 @@
     "@fastify/swagger": "^9.2.0",
     "@fastify/swagger-ui": "^5.1.0",
     "@prisma/client": "^5.21.1",
+    "dotenv": "^16.4.5",
     "fastify": "^5.0.0",
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "dotenv-cli": "^7.4.2",
     "got": "^14.4.4",
     "nswag": "^14.1.0",
     "prisma": "^5.21.1",

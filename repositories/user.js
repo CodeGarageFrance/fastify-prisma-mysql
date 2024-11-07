@@ -2,7 +2,7 @@ import { prisma } from '../services/db.js';
 
 export const UserRepository = {
     getUserByCredentials: async (email, password) => {
-        const user = await prisma.users.findFirst({
+        const user = await prisma.User.findFirst({
             where: {
                 email: email,
                 password: password
@@ -11,7 +11,7 @@ export const UserRepository = {
         return user;
     },
     getUserById: async (id) => {
-        const user = await prisma.users.findUnique({
+        const user = await prisma.User.findUnique({
             where: {
                 id: id
             }
@@ -19,7 +19,7 @@ export const UserRepository = {
         return user;
     },
     createUser: async (user) => {
-        const newUser = await prisma.users.create({
+        const newUser = await prisma.User.create({
             data: user
         });
         return newUser;
