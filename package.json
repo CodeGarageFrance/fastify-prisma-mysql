@@ -7,10 +7,10 @@
   "scripts": {
     "postinstall": "npx prisma migrate deploy && npx prisma generate",
     "start": "node app.js",
-    "dev": "dotenv -e .env.development node app.js",
+    "dev": "dotenv -e .env.local node app.js",
     "test": "vitest",
-    "db:dev:migrate": "dotenv -e .env.development -- npx prisma migrate dev",
-    "db:dev:generate": "dotenv -e .env.development -- npx prisma generate",
+    "db:dev:migrate": "dotenv -e .env.local -- npx prisma migrate dev",
+    "db:dev:generate": "dotenv -e .env.local -- npx prisma generate",
     "sdk": "npx nswag openapi2tsclient /input:http://localhost:3000/documentation/json /output:./src/api.ts"
   },
   "author": "",
